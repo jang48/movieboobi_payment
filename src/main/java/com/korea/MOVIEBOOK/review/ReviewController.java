@@ -221,6 +221,29 @@ public class ReviewController {
     }
 
 
+    @PostMapping("/update")
+    public String updateReview(@RequestParam String category, @RequestParam String contentsID, @RequestParam Long reviewId, @RequestParam String review){
+        this.reviewService.updateReview(review, reviewId);
+        return "redirect:/review/detail?category="+category+"&contentsID=" + contentsID + "&reviewId=" + reviewId;
+    }
+
+    @PostMapping("/delete")
+    public String deleteReview(@RequestParam String category, @RequestParam String contentsID, @RequestParam Long reviewId){
+        this.reviewService.deleteReview(reviewId);
+
+        if(category.equals("book")){
+            return "redirect:/book/detail?isbn="+ contentsID;
+        } else if (category.equals("drama")){
+            return "redirect:/drama/detail?dramaId="+ contentsID;
+        } else if (category.equals("movie")){
+            return "redirect:/movie/detail?movieCD="+ contentsID;
+        }
+
+        return "redirect:/webtoon/detail?webtoonId="+contentsID;
+    }
+
+
+
 
 
 //    @GetMapping("/drama/{id}/review_list")
